@@ -77,11 +77,9 @@ lib/
    ```bash
    flutter run
    ```
+6 Apk file 
+https://drive.google.com/file/d/1O_94bhsjbQaEGUTes0nWCtaBZqRyKB4Y/view?usp=sharing
 
-## Screenshots
 
-_Coming soon_
 
-## License
 
-This project is for personal/educational use.
