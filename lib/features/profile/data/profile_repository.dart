@@ -32,13 +32,7 @@ class ProfileRepository {
     }
   }
 
-  Future<void> updateUserTheme(String userId, String themeMode) async {
-    try {
-      await _firestore.collection('users').doc(userId).update({'themeMode': themeMode});
-    } catch (e) {
-      throw ServerException('Failed to update theme: ${e.toString()}');
-    }
-  }
+
 
   Future<void> updateUserProfile(String userId, Map<String, dynamic> data) async {
     try {

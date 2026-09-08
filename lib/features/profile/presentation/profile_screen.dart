@@ -150,11 +150,6 @@ class ProfileScreen extends ConsumerWidget {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     onChanged: (value) async {
                       ref.read(themeProvider.notifier).toggleTheme(value);
-                      try {
-                        await ref.read(profileRepositoryProvider).updateUserTheme(user.id, value ? 'dark' : 'light');
-                      } catch (e) {
-                        // Silently fail backend sync
-                      }
                     },
                   ),
                 ),
