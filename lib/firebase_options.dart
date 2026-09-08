@@ -2,10 +2,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, TargetPlatform;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// These values come from your google-services.json.
-/// If you add iOS/web support, add those platform options here too.
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     switch (defaultTargetPlatform) {

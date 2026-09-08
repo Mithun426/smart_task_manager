@@ -32,8 +32,6 @@ class ProfileRepository {
     }
   }
 
-
-
   Future<void> updateUserProfile(String userId, Map<String, dynamic> data) async {
     try {
       await _firestore.collection('users').doc(userId).update(data);

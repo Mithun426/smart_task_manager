@@ -12,8 +12,8 @@ class TasksController extends AsyncNotifier<List<Task>> {
   int _skip = 0;
   final int _limit = 10;
   String _searchQuery = '';
-  String _filter = 'All'; // All, Completed, Pending
-  String _sort = 'Due Date'; // Due Date, Priority, Created Date
+  String _filter = 'All';
+  String _sort = 'Due Date';
 
   List<Task> _allLoadedTasks = [];
 
@@ -85,19 +85,16 @@ class TasksController extends AsyncNotifier<List<Task>> {
   List<Task> _applyClientFilters(List<Task> tasks) {
     var result = List<Task>.from(tasks);
     
-    // Filter
     if (_filter == 'Completed') {
       result = result.where((t) => t.isCompleted).toList();
     } else if (_filter == 'Pending') {
       result = result.where((t) => !t.isCompleted).toList();
     }
 
-    // Search
     if (_searchQuery.isNotEmpty) {
       result = result.where((t) => t.title.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
     }
 
-    // Sort
     result.sort((a, b) {
       if (_sort == 'Due Date') {
         return a.dueDate.compareTo(b.dueDate);
@@ -121,17 +118,17 @@ class TasksController extends AsyncNotifier<List<Task>> {
   }
 
   Future<void> addTask(Task task) async {
-    _allLoadedTasks.insert(0, task); // Optimistic
+    _allLoadedTasks.insert(0, task);
     _reapplyFilters();
     try {
       final created = await _repository.addTask(task);
       final index = _allLoadedTasks.indexWhere((t) => t.id == task.id);
       if (index != -1) {
-        _allLoadedTasks[index] = created; // Update with actual
+        _allLoadedTasks[index] = created;
       }
       _reapplyFilters();
     } catch (e) {
-      _allLoadedTasks.removeWhere((t) => t.id == task.id); // Rollback
+      _allLoadedTasks.removeWhere((t) => t.id == task.id);
       _reapplyFilters();
       throw Exception('Failed to add task: $e');
     }
@@ -142,14 +139,14 @@ class TasksController extends AsyncNotifier<List<Task>> {
     if (oldTaskIndex == -1) return;
     
     final oldTask = _allLoadedTasks[oldTaskIndex];
-    _allLoadedTasks[oldTaskIndex] = task; // Optimistic
+    _allLoadedTasks[oldTaskIndex] = task;
     _reapplyFilters();
     try {
       final updated = await _repository.updateTask(task);
       _allLoadedTasks[oldTaskIndex] = updated;
       _reapplyFilters();
     } catch (e) {
-      _allLoadedTasks[oldTaskIndex] = oldTask; // Rollback
+      _allLoadedTasks[oldTaskIndex] = oldTask;
       _reapplyFilters();
       throw Exception('Failed to update task: $e');
     }
@@ -159,12 +156,12 @@ class TasksController extends AsyncNotifier<List<Task>> {
     final oldTaskIndex = _allLoadedTasks.indexWhere((t) => t.id == id);
     if (oldTaskIndex == -1) return;
     
-    final oldTask = _allLoadedTasks.removeAt(oldTaskIndex); // Optimistic
+    final oldTask = _allLoadedTasks.removeAt(oldTaskIndex);
     _reapplyFilters();
     try {
       await _repository.deleteTask(id);
     } catch (e) {
-      _allLoadedTasks.insert(oldTaskIndex, oldTask); // Rollback
+      _allLoadedTasks.insert(oldTaskIndex, oldTask);
       _reapplyFilters();
       throw Exception('Failed to delete task: $e');
     }

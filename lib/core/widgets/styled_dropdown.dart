@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// A compact, styled dropdown button that opens a popup menu
-/// anchored directly below itself.
 class StyledDropdown extends StatelessWidget {
   final String label;
   final String value;

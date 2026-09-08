@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../auth/presentation/auth_controller.dart';
-import '../data/profile_repository.dart';
 import '../../../core/theme/theme_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {

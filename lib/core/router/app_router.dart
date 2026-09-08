@@ -54,7 +54,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (next.isLoading) return;
       
       final isAuthenticated = next.value != null;
-      // Get current path to avoid unnecessary navigation
       final currentPath = router.routerDelegate.currentConfiguration.uri.toString();
       
       if (isAuthenticated) {
